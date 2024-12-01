@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -53,24 +54,20 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton className="mt-10">
+              <h1 className="font-bold text-3xl">Daily Weather ☀️</h1>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent className="mt-16">
         <SidebarGroup>
           <SidebarGroupLabel>Favourites</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {suggestion.map((item) => (
-                <SidebarMenuItem key={item.location}>
-                  <SidebarMenuButton asChild>
-                    <div className="h-24 mb-3 grid grid-cols-2 space-y-2 border border-black">
-                      <div className="border border-black">{item.location}</div>
-                      <div className=" border border-black">
-                        {item.temperature}
-                      </div>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <SidebarMenu></SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
