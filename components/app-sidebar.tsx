@@ -1,4 +1,4 @@
-import { Inbox, LogOut, Settings, SunMoon } from "lucide-react";
+import { Cloudy, Inbox, LogOut, Settings, SunMoon } from "lucide-react";
 
 import {
   Sidebar,
@@ -13,24 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignOutButton } from "@clerk/nextjs";
-
-const suggestion = [
-  {
-    location: "Pimpri Chinchwad",
-    temperature: 29,
-    type: "sunny",
-  },
-  {
-    location: "New Delhi",
-    temperature: 26,
-    type: "sunny",
-  },
-  {
-    location: "Mumbai",
-    temperature: 31,
-    type: "sunny",
-  },
-];
+import { showHistory } from "@/lib/history";
 
 // Menu items.
 const items = [
@@ -65,9 +48,20 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="mt-16">
         <SidebarGroup>
-          <SidebarGroupLabel>Favourites</SidebarGroupLabel>
+          <SidebarGroupLabel>History</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu></SidebarMenu>
+            <SidebarMenu>
+              {showHistory().map((element) => (
+                <SidebarMenuItem key={element}>
+                  <SidebarMenuButton asChild>
+                    <div>
+                      <Cloudy />
+                      <h1>{element}</h1>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

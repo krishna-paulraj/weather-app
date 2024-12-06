@@ -1,14 +1,13 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import { WeatherApiResponse, WeeklyWeatherApiResponse } from "@/lib/types";
+import { WeatherApiResponse } from "@/lib/types";
 import Image from "next/image";
 import { useState } from "react";
+import { weeklyWeatherData } from "@/lib/data";
 
 export default function AppPage() {
+  const [place, setPlace] = useState("Pune");
   const [weatherData, setWeatherData] = useState<WeatherApiResponse | null>(
-    null,
-  );
-  const [weeklyData, setWeeklyData] = useState<WeeklyWeatherApiResponse | null>(
     null,
   );
 
@@ -16,36 +15,35 @@ export default function AppPage() {
     setWeatherData(data);
   };
 
-  const getWeeklyData = (data: WeeklyWeatherApiResponse) => {
-    setWeeklyData(data);
+  const getPlace = (place: string) => {
+    setPlace(place);
   };
-
-  console.log("weather data", weatherData);
 
   return (
     <div className="w-full flex flex-col p-5">
-      <Navbar sendData={getData} />
+      <Navbar sendData={getData} setPlace={getPlace} />
       <div className="flex-grow mt-14">
-        <h1 className="text-5xl">Pune</h1>
-        <div className="grid grid-cols-7 gap-5 mt-20">
-          {Array(7)
-            .fill(null)
-            .map((_, index) => (
-              <div
-                key={index}
-                className="h-32 w-full border bg-white rounded-lg flex flex-col items-center justify-center"
-              >
-                <p>Sun</p>
-                <Image
-                  src={"/images/clear.png"}
-                  alt="weather"
-                  className="size-12"
-                  width="50"
-                  height="50"
-                />
-                <p className="text-muted-foreground">32°</p>
-              </div>
-            ))}
+        <h1 className="text-5xl">
+          {place.charAt(0).toUpperCase() + place.slice(1).toLowerCase()}
+        </h1>
+        <h1 className="text-2xl mt-14">This Week Report</h1>
+        <div className="grid grid-cols-7 gap-5 mt-3">
+          {weeklyWeatherData.map((day, index) => (
+            <div
+              key={index}
+              className="h-32 w-full border bg-yellow-500/10 rounded-lg flex flex-col items-center justify-center"
+            >
+              <p>{day.day}</p>
+              <Image
+                src={day.icon}
+                alt={day.condition}
+                className="size-12"
+                width="50"
+                height="50"
+              />
+              <p className="text-muted-foreground">{day.temp}°</p>
+            </div>
+          ))}
         </div>
         <div className="mt-20">
           <h1 className="text-2xl">Today&apos;s Highlights</h1>

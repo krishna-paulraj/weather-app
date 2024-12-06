@@ -6,14 +6,15 @@ import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import axios from "axios";
-import { WeatherApiResponse, WeeklyWeatherApiResponse } from "@/lib/types";
+import { WeatherApiResponse } from "@/lib/types";
+import { addHistory } from "@/lib/history";
 
 interface ChildComponentProps {
   sendData: (data: WeatherApiResponse) => void;
-  sendWeeklyData: (data: WeeklyWeatherApiResponse) => void;
+  setPlace: (place: string) => void;
 }
 
-const Navbar = ({ sendData, sendWeeklyData }: ChildComponentProps) => {
+const Navbar = ({ sendData, setPlace }: ChildComponentProps) => {
   const [city, setCity] = useState("Pune");
 
   const handleChange = async () => {
@@ -21,12 +22,9 @@ const Navbar = ({ sendData, sendWeeklyData }: ChildComponentProps) => {
       city,
     });
 
-    const weeklyRes = await axios.post(
-      "http://localhost:3000/api/getWeeklyWeatherData",
-    );
-    console.log("from nav", weeklyRes);
     sendData(res.data);
-    sendWeeklyData(weeklyRes.data);
+    setPlace(city);
+    addHistory(city);
   };
 
   return (
